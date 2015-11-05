@@ -6,6 +6,7 @@
 		<groupId>ie.template.services</groupId>
 		<artifactId>RestApplication</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>RestWeb</artifactId>
 	<packaging>war</packaging>
@@ -180,6 +181,7 @@
 					</dependency>
 				</dependencies>
 				<configuration>
+					<argLine>${unitCoverageAgent}</argLine>
 					<reportsDirectory>${project.build.directory}/autotests-reports</reportsDirectory>
 					<includes>
 						<include>**/*.class</include>
@@ -230,6 +232,7 @@
 						</dependency>
 					</dependencies>
 					<configuration>
+						<argLine>${itCoverageAgent}</argLine>
 						<groups>ie.template.services.annotations.IntegrationTest</groups>
 						<reportsDirectory>${project.build.directory}/autotests-reports</reportsDirectory>
 					</configuration>
@@ -246,6 +249,41 @@
 						</execution>
 					</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.5.v20151012</version>
+				<configuration>
+					<webApp>
+						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+						<contextPath>RestWeb</contextPath>
+					</webApp>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<stopKey>jetty-stop</stopKey>
+					<stopPort>9995</stopPort>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

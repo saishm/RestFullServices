@@ -4,6 +4,7 @@
     <groupId>ie.template.services</groupId>
     <artifactId>RestApplication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
   <artifactId>RestClient</artifactId>
   <name>Rest Client API</name>
